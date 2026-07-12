@@ -50,7 +50,9 @@ TrabalhoOliver/
 │   ├── FIFOService.py          # Estrutura de dados: fila FIFO + ordenação + busca
 │   ├── Order.py                # Representa um pedido individual
 │   ├── EsfihariaMenu.py        # Cardápio de sabores disponíveis
-│   └── Status.py                # Enum com os status possíveis de um pedido
+│   ├── Status.py                # Enum com os status possíveis de um pedido
+│   ├── InputUtils.py           # Leitura de entrada do usuário com opção de cancelar ('0')
+│   └── Exceptions.py           # Exceção VoltarAoMenu, usada para cancelar operações
 └── README.md
 ```
 
