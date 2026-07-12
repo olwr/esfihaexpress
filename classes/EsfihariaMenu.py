@@ -11,7 +11,7 @@ def _normalize(text : str) -> str:
 class EsfihaMenu:
     """Representa o cardápio da esfiharia."""
 
-    menu : list[dict] | None = [
+    menu : list[dict] = [
         {
             'Sabor': 'Frango',
             'Descrição': 'Frango desfiado temperado, queijo muçarela, catupiry e azeitona',
@@ -65,7 +65,7 @@ class EsfihaMenu:
     ]
 
     def __init__(self, menu : list[dict] | None = None):
-        self.menu = menu if menu is not None else EsfihaMenu.menu
+        self.menu : list[dict] = menu if menu is not None else []
 
     def print_menu(self):
         if not self.menu:
@@ -76,7 +76,7 @@ class EsfihaMenu:
                 f"- {item['Sabor']} (R$ {item['Preço']:.2f}): {item['Descrição']}"
             )
 
-    def in_menu(self, flavor):
+    def in_menu(self, flavor : str) -> bool:
         """Verifica se um sabor existe no cardápio."""
         if not flavor:
             return False
@@ -85,12 +85,12 @@ class EsfihaMenu:
         for item in self.menu:
             if _normalize(item['Sabor']) == target:
                 return True
-            return False
+        return False
 
-    def get_price(self, flavor):
+    def get_price(self, flavor : str) -> float | int | None:
         """Retorna o preço de um sabor ou None se não existir."""
         if not flavor:
-            return False
+            return None
         target = _normalize(flavor)
 
         for item in self.menu:

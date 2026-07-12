@@ -30,23 +30,23 @@ class Menu:
 
                     case '3':
                         """Consulta um pedido"""
-                        id_pedido = self._read_int('Nº do pedido: ')
-                        if id_pedido is not None:
-                            fifo_service.print_item(id_pedido)
+                        id_order = self._read_int('Nº do pedido: ')
+                        if id_order is not None:
+                            fifo_service.print_item(id_order)
 
                     case '4':
                         """Cancela um pedido"""
-                        id_pedido = self._read_int('Nº do pedido: ')
-                        if id_pedido is None:
+                        id_order = self._read_int('Nº do pedido: ')
+                        if id_order is None:
                             continue
 
-                        founded_order = self._find_order(fifo_service, id_pedido)
+                        founded_order = self._find_order(fifo_service, id_order)
                         if founded_order is None:
-                            print(f'Nenhum pedido encontrado com o número {id_pedido}.')
+                            print(f'Nenhum pedido encontrado com o número {id_order}.')
                         else:
-                            founded_order.set_status(id_pedido, Status.Status.CANCELADO)
-                            fifo_service.delete_item(id_pedido)
-                            print(f'Pedido {id_pedido} cancelado com sucesso!')
+                            founded_order.set_status(Status.Status.CANCELADO)
+                            fifo_service.delete_item(id_order)
+                            print(f'Pedido {id_order} cancelado com sucesso!')
 
                     case '5':
                         """Finaliza um pedido (o mais antigo da fila)"""
@@ -55,7 +55,6 @@ class Menu:
                         else:
                             finalized_order = fifo_service.dequeue()
                             finalized_order.set_status(
-                                finalized_order.order.get('id'),
                                 Status.Status.FINALIZADO,
                             )
                             print(
@@ -75,7 +74,7 @@ class Menu:
             print()
 
     @staticmethod
-    def _read_int(prompt: str):
+    def _read_int(prompt: str) -> int | None:
         """Lê um inteiro do usuário com tratamento de erro.
 
         Retorna None (em vez de lançar exceção) se o usuário digitar algo
@@ -89,16 +88,16 @@ class Menu:
             return None
 
     @staticmethod
-    def _find_order(fifo_service, id_pedido):
+    def _find_order(fifo_service, id_order : int) -> Order.Order | None:
         """Procura, dentro da fila, o pedido com o ID informado."""
         for item in fifo_service.queue:
-            if item.order.get('id') == id_pedido:
+            if item.order.get('id') == id_order:
                 return item
         return None
 
     @staticmethod
     def print_main_menu():
-        '''Printa na saída do console o menu principal.'''
+        """Printa na saída do console o menu principal."""
         print('####### Menu Principal #######')
         print('1 - Fazer pedido')
         print('2 - Ver lista de pedidos)')
