@@ -65,7 +65,7 @@ class EsfihaMenu:
     ]
 
     def __init__(self, menu : list[dict] | None = None):
-        self.menu : list[dict] = menu if menu is not None else []
+        self.menu : list[dict] = menu if menu is not None else EsfihaMenu.menu
 
     def print_menu(self):
         if not self.menu:

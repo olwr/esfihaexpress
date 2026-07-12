@@ -26,6 +26,7 @@ class Menu:
 
                     case '2':
                         """Printa a lista de pedidos"""
+                        fifo_service.sort_queue(by='id')
                         fifo_service.print_queue()
 
                     case '3':
@@ -100,7 +101,7 @@ class Menu:
         """Printa na saída do console o menu principal."""
         print('####### Menu Principal #######')
         print('1 - Fazer pedido')
-        print('2 - Ver lista de pedidos)')
+        print('2 - Ver lista de pedidos')
         print('3 - Consultar um pedido')
         print('4 - Cancelar pedido')
         print('5 - Finalizar pedido')
