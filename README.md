@@ -1,5 +1,7 @@
 ﻿# Esfiha Express — Fila de Pedidos (FIFO)
 
+**By: Oliver Benites [5058029]**
+
 Mini-projeto acadêmico que demonstra a estrutura de dados **Fila (Queue / FIFO — First In, First Out)** aplicada a um contexto de sistema de pedidos de uma esfiharia fictícia.
 
 O primeiro pedido registrado é o primeiro a ser finalizado, exatamente como uma fila de atendimento real.
@@ -33,6 +35,10 @@ A fila é implementada em `classes/FIFOService.py`, encapsulando uma `list` do P
 4. **Cancelar um pedido** — opção `4`, busca o pedido pelo ID, marca como `CANCELADO` e o remove da fila.
 5. **Finalizar um pedido** — opção `5`, remove o pedido mais antigo da fila (`dequeue`) e marca como `FINALIZADO`.
 6. **Sair** — opção `6`, encerra o programa.
+
+## Cancelar uma operação em andamento
+
+Em qualquer prompt que peça uma entrada (nome, sabor, quantidade, ID de pedido, etc.), digitar **`0`** interrompe a operação atual e volta imediatamente ao menu principal — útil, por exemplo, se o usuário escolheu a opção errada no menu (digitou `4` querendo `3`) ou desistiu no meio da criação de um pedido. Nenhum dado parcial é salvo quando isso acontece.
 
 ## Estrutura de arquivos
 

@@ -1,6 +1,8 @@
 ﻿from classes import FIFOService
 from classes import Order
 from classes import Status
+from classes import InputUtils
+from classes.Exceptions import BackToMenu
 
 class Menu:
     def __init__(self, global_id : int = 0):
@@ -20,7 +22,12 @@ class Menu:
                         """Cria um pedido e o adiciona a fila"""
                         self.global_id += 1
                         new_order = Order.Order()
-                        new_order.set_order(self.global_id)
+                        try:
+                            new_order.set_order(self.global_id)
+                        except BackToMenu:
+                            self.global_id -= 1  # não "gasta" o número do pedido cancelado
+                            print('Criação de pedido cancelada. Voltando ao menu principal.\n')
+                            continue
                         fifo_service.enqueue(new_order)
                         print('Pedido registrado com sucesso!\n')
 
@@ -31,13 +38,13 @@ class Menu:
 
                     case '3':
                         """Consulta um pedido"""
-                        id_order = self._read_int('Nº do pedido: ')
+                        id_order = InputUtils.read_int('Nº do pedido')
                         if id_order is not None:
                             fifo_service.print_item(id_order)
 
                     case '4':
                         """Cancela um pedido"""
-                        id_order = self._read_int('Nº do pedido: ')
+                        id_order = InputUtils.read_int('Nº do pedido')
                         if id_order is None:
                             continue
 
@@ -69,24 +76,15 @@ class Menu:
                     case _:
                         print('Opção invalida! Tente novamente!')
                         continue
+            except BackToMenu:
+                # Rede de segurança única: qualquer prompt dentro do case
+                # (cases '3' e '4' incluídos) que levante BackToMenu cai
+                # aqui, sem precisar de tratamento individual em cada case.
+                print('Operação cancelada. Voltando ao menu principal.\n')
             except Exception as e:
                 print(f'Ocorreu um erro inesperado ao processar a opção: {e}')
 
             print()
-
-    @staticmethod
-    def _read_int(prompt: str) -> int | None:
-        """Lê um inteiro do usuário com tratamento de erro.
-
-        Retorna None (em vez de lançar exceção) se o usuário digitar algo
-        que não seja um número inteiro válido.
-        """
-        raw_value = input(prompt).strip()
-        try:
-            return int(raw_value)
-        except ValueError:
-            print('Valor inválido: digite um número inteiro.')
-            return None
 
     @staticmethod
     def _find_order(fifo_service, id_order : int) -> Order.Order | None:
